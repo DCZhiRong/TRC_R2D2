@@ -3,8 +3,8 @@
 <package format="3">
   <name>r2d2</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="my_email@email.com"></maintainer>
+  <description>TODO: Ros2 package for the trc r2d2 robot</description>
+  <maintainer email="interwin.daniel@gmail.com"></maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
