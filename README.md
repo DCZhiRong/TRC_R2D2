@@ -2,11 +2,16 @@
 The ros2 humble packages used for the trc r2d2 v2
 
 In case you have not installed Ros2 humble and setup your workspace: 
+
 https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
 
 ## Some details about the package
-This package relies on
+This package relies heavily on ros2 control to handle interfacing with the robot and its hardware.
+
+The two command interfaces correspond to the left and right wheel velocity repectively, while the state interfaces keep track of the wheel's velocity and postion
+
+The ros2_control node in this package takes in commands from the diff_cont/cmd_vel_unstamped topic in order to control the motors
 
 
 ### Setup
@@ -45,6 +50,7 @@ Lidar:
 sudo apt install ros-humble-rplidar-ros
 ```
 Realsense(instructions taken from intel's repo):
+
 https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages
 
 
