@@ -4,6 +4,11 @@ The ros2 humble packages used for the trc r2d2 v2
 In case you have not installed Ros2 humble and setup your workspace: 
 https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
+
+## Some details about the package
+This package relies on
+
+
 ### Setup
 Firstly run the following code to ensure that there's no funny business going on with your serial ports(We are disabling the brltty udev rules here instead of deleting them outright just incase)
 
@@ -29,7 +34,7 @@ reboot
 Now that you have done the initial setup, its time to install some of the ros dependencies needed for this ros package to run
 
 ```
-sudo apt install ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-teleop-twist* ros-humble-gazebo* ros-humble-ros2-control* ros-humble-twist-mux
+sudo apt install ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-teleop-twist* ros-humble-gazebo* ros-humble-ros2-control* ros-humble-twist-mux ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup
 ```
 
 ### Hardware drivers
@@ -41,6 +46,8 @@ sudo apt install ros-humble-rplidar-ros
 ```
 Realsense(instructions taken from intel's repo):
 https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages
+
+
 
 ## How to run the robot in simulation:
 * Start the simulation launch file:
@@ -73,4 +80,5 @@ Set the fixed frame to odom and the rivz viewer would be done
 ## How to run the robot in real world(Not working yet):
 Start the real world launch file:(Not working yet)
 ```
+ros2 launch r2d2 launch_robot.launch.py
 ```
