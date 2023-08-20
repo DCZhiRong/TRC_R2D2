@@ -54,14 +54,14 @@ You should see gazebo pop up with the robot in a simulated gazebo environment an
 
 You can now plug in a controller to check if the robot can move around:
 * For xbox style controllers 
-  "X" - to enable movement(held)
-  "Left joy" - move around
-  "Right bumper" - enable turbo(held)
+  * "X" - to enable movement(held)
+  * "Left joy" - move around
+  * "Right bumper" - enable turbo(held)
 
 * For playstation controllers
-  "Triangle" to enable movement(held)
-  "Left joy" - move around
-  "Right bumper" - enable turbo(held)
+  * "Triangle" to enable movement(held)
+  * "Left joy" - move around
+  * "Right bumper" - enable turbo(held)
 
 Next to view the robot in rviz
 ```
