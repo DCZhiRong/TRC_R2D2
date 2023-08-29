@@ -40,6 +40,7 @@ Now that you have done the initial setup, its time to install some of the ros de
 
 ```
 sudo apt install ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-teleop-twist* ros-humble-gazebo* ros-humble-ros2-control* ros-humble-twist-mux ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup
+libserial-dev
 ```
 
 ### Hardware drivers
