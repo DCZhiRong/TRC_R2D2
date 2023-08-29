@@ -103,3 +103,16 @@ This here brings up the map maker for the robot
 #Replace $ros_workspace$ with the path to your ros workspace from your current directory
 ros2 launch slam_toolbox online_async_launch.py slam_params_file:='$ros_workspace$/src/r2d2/config/mapper_params_online_async.yaml' use_sim_time:=false
 ```
+
+Move the robot using
+```
+ros2 run teleop_twist_joy teleop_twist_joy
+```
+
+## Mapping
+Whether you are in simulation or in real life the instructions here are the same(You only need to make sure the lidar is running if in real life)
+#Replace $ros_workspace$ with your ros workspace
+```
+cd
+ros2 launch slam_toolbox online_async_launch.py slam_params_file:='$ros_workspace$/src/r2d2/config/mapper_params_online_async.yaml' use_sim_time:=false
+```
