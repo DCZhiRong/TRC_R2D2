@@ -24,7 +24,7 @@
 			</xacro:inertial_cylinder>
 		</link>
 
-		<gazebo reference="laser_frame">
+	<gazebo reference="laser_frame">
         <material>Gazebo/Red</material>
 
         <sensor name="laser" type="ray">

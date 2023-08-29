@@ -83,8 +83,23 @@ rviz2
 You need to subsribe to the /scan and /robot_description through laserscan and RobotModel respectively
 Set the fixed frame to odom and the rivz viewer would be done
 
-## How to run the robot in real world(Not working yet):
-Start the real world launch file:(Not working yet)
+
+## How to run the robot in real world:
+Start the real world launch file(This just launches the robot and connects to the interfaces):
 ```
 ros2 launch r2d2 launch_robot.launch.py
+```
+Next to view the robot in rviz
+```
+rviz2
+```
+You need to subsribe to the /scan and /robot_description through laserscan and RobotModel respectively
+Set the fixed frame to odom and the rivz viewer would be done
+
+
+## How to bring up the mapper(works in both simulation and real world):
+This here brings up the map maker for the robot
+```
+#Replace $ros_workspace$ with the path to your ros workspace from your current directory
+ros2 launch slam_toolbox online_async_launch.py slam_params_file:='$ros_workspace$/src/r2d2/config/mapper_params_online_async.yaml' use_sim_time:=false
 ```
