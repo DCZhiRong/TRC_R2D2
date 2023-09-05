@@ -15,7 +15,7 @@ def generate_launch_description():
                 'frame_id': 'laser_frame',
                 'serial_baudrate': 115200,
                 'angle_compensate':True,
-                'inverted':True,
+                'inverted':False,
                 'scan_mode': 'Standard'
                 }])
     ])
