@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<joint name="us1_joint" type="fixed">
+		<parent link="chassis"/>
+		<child link="us1_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="us1_link">
+
+	</link>
+
+	<joint name="us2_joint" type="fixed">
+		<parent link="chasis"/>
+		<child link="us2_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="us2_link">
+
+	</link>
+
+	<joint name="us3_joint" type="fixed">
+		<parent link="chassis"/>
+		<child link="us3_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="us3_link">
+
+	</link>
+
+	<joint name="us4_joint" type="fixed">
+		<parent link="chasis"/>
+		<child link="us4_link"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="us4_link">
+	
+	</link>
+</robot>
