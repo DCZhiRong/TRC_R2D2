@@ -233,7 +233,7 @@ global_costmap:
       robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer", "range_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -255,6 +255,10 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.55
+      range_layer:
+        plugin: "nav2_costmap_2d::RangeLayer"
+        enabled: True
+        topics: ["Us1/Range","Us2/Range","Us3/Range","Us4/Range"]
       always_send_full_costmap: True
 
 map_server:
