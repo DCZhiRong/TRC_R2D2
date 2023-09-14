@@ -2,9 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 	<joint name="imu_joint" type="fixed">
-		<parent link="chassis"/>
+		<parent link="camera_link"/>
 		<child link="imu_link"/>
-		<origin xyz="${0.365 +0.01} 0 0.03" rpy="0 0 0"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
 
 	<link name="imu_link">
@@ -21,12 +21,6 @@
 		</collision>
 	</link>
 
-	<joint name="imu_sensor_joint" type="fixed">
-		<parent link="imu_link"/>
-		<child link="imu_pos_link"/>
-		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-	</joint>
-	<link name="imu_pos_link"></link>
 
 
 	

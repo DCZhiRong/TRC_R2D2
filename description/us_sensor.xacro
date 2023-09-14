@@ -2,42 +2,221 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 	<joint name="us1_joint" type="fixed">
-		<parent link="chassis"/>
+		<parent link="r2d2_chassis"/>
 		<child link="us1_link"/>
-		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<origin xyz="${(0.2315 +0.01)} 0 0" rpy="0 0 0"/>
 	</joint>
 
 	<link name="us1_link">
-
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</link>
 
+	<gazebo reference="us1_link">
+		<sensor name="us_ultrasound_1" type="ray">
+			<always_on>true</always_on>
+			<visualize>true</visualize>
+			<pose>0.0 0 0.0 0 0 0</pose>
+			<update_rate>50</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.18</min_angle>
+						<max_angle>0.18</max_angle>
+					</horizontal>
+					<vertical>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.01</min_angle>
+						<max_angle>0.01</max_angle>
+					</vertical>
+				</scan>
+				<range>
+					<min>0.02</min>
+					<max>4</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			 <plugin name="bytes_ultrasound1" filename="libgazebo_ros_ray_sensor.so">
+				<ros>
+					<remapping>~/out:=Us1/Range</remapping>
+				</ros>
+				<output_type>sensor_msgs/Range</output_type>
+				<radiation_type>ultrasound</radiation_type>
+				<frame_name>us1_link</frame_name>
+			</plugin>
+		</sensor>
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
+
 	<joint name="us2_joint" type="fixed">
-		<parent link="chasis"/>
+		<parent link="r2d2_chassis"/>
 		<child link="us2_link"/>
-		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<origin xyz="0 ${-(0.2315 +0.01)} 0" rpy="0 0 ${-pi/2}"/>
 	</joint>
 
 	<link name="us2_link">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 
 	</link>
 
+	<gazebo reference="us2_link">
+		<sensor name="us_ultrasound_2" type="ray">
+			<always_on>true</always_on>
+			<visualize>true</visualize>
+			<pose>0.0 0 0.0 0 0 0</pose>
+			<update_rate>50</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.18</min_angle>
+						<max_angle>0.18</max_angle>
+					</horizontal>
+					<vertical>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.01</min_angle>
+						<max_angle>0.01</max_angle>
+					</vertical>
+				</scan>
+				<range>
+					<min>0.02</min>
+					<max>4</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			 <plugin name="bytes_ultrasound2" filename="libgazebo_ros_ray_sensor.so">
+				<ros>
+					<remapping>~/out:=Us2/Range</remapping>
+				</ros>
+				<output_type>sensor_msgs/Range</output_type>
+				<radiation_type>ultrasound</radiation_type>
+				<frame_name>us2_link</frame_name>
+			</plugin>
+		</sensor>
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
 	<joint name="us3_joint" type="fixed">
-		<parent link="chassis"/>
+		<parent link="r2d2_chassis"/>
 		<child link="us3_link"/>
-		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<origin xyz="${-(0.2315 +0.01)} 0 0" rpy="0 0 ${-pi}"/>
 	</joint>
 
 	<link name="us3_link">
-
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</link>
 
+	<gazebo reference="us3_link">
+		<sensor name="us_ultrasound_3" type="ray">
+			<always_on>true</always_on>
+			<visualize>true</visualize>
+			<pose>0.0 0 0.0 0 0 0</pose>
+			<update_rate>50</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.18</min_angle>
+						<max_angle>0.18</max_angle>
+					</horizontal>
+					<vertical>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.01</min_angle>
+						<max_angle>0.01</max_angle>
+					</vertical>
+				</scan>
+				<range>
+					<min>0.02</min>
+					<max>4</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			 <plugin name="bytes_ultrasound3" filename="libgazebo_ros_ray_sensor.so">
+				<ros>
+					<remapping>~/out:=Us3/Range</remapping>
+				</ros>
+				<output_type>sensor_msgs/Range</output_type>
+				<radiation_type>ultrasound</radiation_type>
+				<frame_name>us3_link</frame_name>
+			</plugin>
+		</sensor>
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
 	<joint name="us4_joint" type="fixed">
-		<parent link="chasis"/>
+		<parent link="r2d2_chassis"/>
 		<child link="us4_link"/>
-		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<origin xyz="0 ${(0.2315 +0.01)} 0" rpy="0 0 ${pi/2}"/>
 	</joint>
 
 	<link name="us4_link">
-	
+		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</link>
+
+	<gazebo reference="us4_link">
+		<sensor name="us_ultrasound_4" type="ray">
+			<always_on>true</always_on>
+			<visualize>true</visualize>
+			<pose>0.0 0 0.0 0 0 0</pose>
+			<update_rate>50</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.18</min_angle>
+						<max_angle>0.18</max_angle>
+					</horizontal>
+					<vertical>
+						<samples>5</samples>
+						<resolution>1.0</resolution>
+						<min_angle>-0.01</min_angle>
+						<max_angle>0.01</max_angle>
+					</vertical>
+				</scan>
+				<range>
+					<min>0.02</min>
+					<max>4</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			 <plugin name="bytes_ultrasound4" filename="libgazebo_ros_ray_sensor.so">
+				<ros>
+					<remapping>~/out:=Us4/Range</remapping>
+				</ros>
+				<output_type>sensor_msgs/Range</output_type>
+				<radiation_type>ultrasound</radiation_type>
+				<frame_name>us4_link</frame_name>
+			</plugin>
+		</sensor>
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
 </robot>
