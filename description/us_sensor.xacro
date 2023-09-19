@@ -2,9 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 	<joint name="us1_joint" type="fixed">
-		<parent link="r2d2_chassis"/>
+		<parent link="camera_link"/>
 		<child link="us1_link"/>
-		<origin xyz="${(0.2315 +0.01)} 0 0" rpy="0 0 0"/>
+		<origin xyz="0 0 -0.038" rpy="0 0 0"/>
 	</joint>
 
 	<link name="us1_link">
@@ -59,7 +59,7 @@
 	<joint name="us2_joint" type="fixed">
 		<parent link="r2d2_chassis"/>
 		<child link="us2_link"/>
-		<origin xyz="0 ${-(0.2315 +0.01)} 0" rpy="0 0 ${-pi/2}"/>
+		<origin xyz="0 ${-(0.2315 +0.01)} -0.15" rpy="0 0 ${-pi/2}"/>
 	</joint>
 
 	<link name="us2_link">
@@ -114,7 +114,7 @@
 	<joint name="us3_joint" type="fixed">
 		<parent link="r2d2_chassis"/>
 		<child link="us3_link"/>
-		<origin xyz="${-(0.2315 +0.01)} 0 0" rpy="0 0 ${-pi}"/>
+		<origin xyz="${(0.2315)} 0 ${-0.47527/2+0.15}" rpy="0 0 0"/>
 	</joint>
 
 	<link name="us3_link">
@@ -168,7 +168,7 @@
 	<joint name="us4_joint" type="fixed">
 		<parent link="r2d2_chassis"/>
 		<child link="us4_link"/>
-		<origin xyz="0 ${(0.2315 +0.01)} 0" rpy="0 0 ${pi/2}"/>
+		<origin xyz="0 ${(0.2315 +0.01)} -0.15" rpy="0 0 ${pi/2}"/>
 	</joint>
 
 	<link name="us4_link">
