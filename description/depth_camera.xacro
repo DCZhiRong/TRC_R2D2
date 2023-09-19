@@ -4,7 +4,7 @@
 	<joint name="camera_joint" type="fixed">
 		<parent link="r2d2_chassis"/>
 		<child link="camera_link"/>
-		<origin xyz="${(0.2315)} 0 ${0.47527/2}" rpy="0 0 0"/>
+		<origin xyz="${(0.2315)} 0 ${0.47527/2+0.038}" rpy="0 0 0"/>
 	</joint>
 
 	<link name="camera_link">
@@ -43,11 +43,14 @@
                     <height>480</height>
                 </image>
                 <clip>
-                    <near>0.05</near>
+                    <near>0.005</near>
                     <far>8.0</far>
                 </clip>
             </camera>
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+				<ros>
+					<remapping>/camera/points:=/camera/depth/color/points</remapping>
+				</ros>
 				<frame_name>camera_link_optical</frame_name>
 				<min_depth>0.1</min_depth>
 				<max_depth>100.0</max_depth>

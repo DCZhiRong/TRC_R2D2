@@ -41,6 +41,7 @@ def generate_launch_description():
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
 
+
     lifecycle_nodes = ['map_server', 'amcl']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -140,6 +141,7 @@ def generate_launch_description():
         ]
     )
 
+
     load_composable_nodes = LoadComposableNodes(
         condition=IfCondition(use_composition),
         target_container=container_name_full,
@@ -168,7 +170,6 @@ def generate_launch_description():
 
     # Create the launch description and populate
     ld = LaunchDescription()
-
     # Set environment variables
     ld.add_action(stdout_linebuf_envvar)
 
