@@ -21,6 +21,16 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+install(PROGRAMS
+  scripts/nav2_pos.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

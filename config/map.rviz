@@ -28,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
   - Class: nav2_rviz_plugins/Navigation 2
     Name: Navigation 2
 Visualization Manager:
@@ -99,37 +99,38 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
+        base_link:
+          base_footprint:
+            {}
+          chassis:
+            laser_frame:
+              {}
+            left_caster:
+              {}
+            r2d2_chassis:
+              camera_link:
+                camera_link_optical:
+                  {}
+                imu_link:
+                  {}
+                us1_link:
+                  {}
+              head:
+                {}
+              us2_link:
+                {}
+              us3_link:
+                {}
+              us4_link:
+                {}
+            right_caster:
+              {}
+          left_wheel:
+            {}
+          right_wheel:
+            {}
         odom:
-          base_link:
-            base_footprint:
-              {}
-            chassis:
-              laser_frame:
-                {}
-              left_caster:
-                {}
-              r2d2_chassis:
-                camera_link:
-                  camera_link_optical:
-                    {}
-                  imu_link:
-                    {}
-                  us1_link:
-                    {}
-                head:
-                  {}
-                us2_link:
-                  {}
-                us3_link:
-                  {}
-                us4_link:
-                  {}
-              right_caster:
-                {}
-            left_wheel:
-              {}
-            right_wheel:
-              {}
+          {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -426,7 +427,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
