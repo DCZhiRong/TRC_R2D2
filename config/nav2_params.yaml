@@ -209,7 +209,7 @@ local_costmap:
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
-        observation_sources: scan pointcloud
+        observation_sources: scan 
         scan:
           topic: /scan
           max_obstacle_height: 2.0
@@ -220,9 +220,9 @@ local_costmap:
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
-        pointcloud:
-          topic: camera/depth/color/points
-          data_type: "PointCloud2"
+        #pointcloud:
+        #  topic: camera/depth/color/points
+        #  data_type: "PointCloud2"
       range_sensor_layer:
         plugin: "range_sensor_layer::RangeSensorLayer"
         enabled: True
