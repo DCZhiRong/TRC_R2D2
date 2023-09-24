@@ -14,7 +14,7 @@
 	<gazebo reference="us1_link">
 		<sensor name="us_ultrasound_1" type="ray">
 			<always_on>true</always_on>
-			<visualize>true</visualize>
+			<visualize>false</visualize>
 			<pose>0.0 0 0.0 0 0 0</pose>
 			<update_rate>50</update_rate>
 			<ray>
@@ -70,7 +70,7 @@
 	<gazebo reference="us2_link">
 		<sensor name="us_ultrasound_2" type="ray">
 			<always_on>true</always_on>
-			<visualize>true</visualize>
+			<visualize>false</visualize>
 			<pose>0.0 0 0.0 0 0 0</pose>
 			<update_rate>50</update_rate>
 			<ray>
@@ -124,7 +124,7 @@
 	<gazebo reference="us3_link">
 		<sensor name="us_ultrasound_3" type="ray">
 			<always_on>true</always_on>
-			<visualize>true</visualize>
+			<visualize>false</visualize>
 			<pose>0.0 0 0.0 0 0 0</pose>
 			<update_rate>50</update_rate>
 			<ray>
@@ -178,7 +178,7 @@
 	<gazebo reference="us4_link">
 		<sensor name="us_ultrasound_4" type="ray">
 			<always_on>true</always_on>
-			<visualize>true</visualize>
+			<visualize>false</visualize>
 			<pose>0.0 0 0.0 0 0 0</pose>
 			<update_rate>50</update_rate>
 			<ray>

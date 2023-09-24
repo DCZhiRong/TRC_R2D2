@@ -17,13 +17,14 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, GroupAction, SetEnvironmentVariable, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import LoadComposableNodes
 from launch_ros.actions import Node
 from launch_ros.descriptions import ComposableNode
 from nav2_common.launch import RewrittenYaml
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
@@ -105,6 +106,11 @@ def generate_launch_description():
     declare_log_level_cmd = DeclareLaunchArgument(
         'log_level', default_value='info',
         description='log level')
+    
+    #efk = IncludeLaunchDescription(
+    #            PythonLaunchDescriptionSource([os.path.join(bringup_dir,'launch','ekf.launch.py'
+    #            )]), launch_arguments={'use_sim_time': use_sim_time}.items()
+    #)
 
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(['not ', use_composition])),
@@ -140,6 +146,7 @@ def generate_launch_description():
                             {'node_names': lifecycle_nodes}])
         ]
     )
+    
 
 
     load_composable_nodes = LoadComposableNodes(
@@ -187,5 +194,6 @@ def generate_launch_description():
     # Add the actions to launch all of the localiztion nodes
     ld.add_action(load_nodes)
     ld.add_action(load_composable_nodes)
+    #ld.add_action(efk)
 
     return ld
