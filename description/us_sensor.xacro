@@ -11,7 +11,7 @@
 		<origin xyz="0 0 0" rpy="0 0 0"/>
 	</link>
 
-	<gazebo reference="us1_link">
+	<!--gazebo reference="us1_link">
 		<sensor name="us_ultrasound_1" type="ray">
 			<always_on>true</always_on>
 			<visualize>false</visualize>
@@ -53,7 +53,7 @@
 			</plugin>
 		</sensor>
 		<material>Gazebo/Blue</material>
-	</gazebo>
+	</gazebo-->
 
 
 	<joint name="us2_joint" type="fixed">
