@@ -94,7 +94,7 @@ class PageFeatures(tk.Frame):
         self.last_x = event.x
         self.last_y = event.y
 
-  def dragging(self, event, image):
+  def dragging(self, event):
       dx = event.x - self.last_x
       dy = event.y - self.last_y
 
@@ -105,7 +105,7 @@ class PageFeatures(tk.Frame):
       elif self.zoom_factor > 2.0:
           self.zoom_factor = 2.0
 
-      self.image = self.image.resize((int(200 * self.zoom_factor), int(200 * self.zoom_factor)))
+      self.image = self.image.resize((int(400 * self.zoom_factor), int(400 * self.zoom_factor)))
       self.image_photo = ImageTk.PhotoImage(self.image)
       self.image_label.config(image=self.image_photo)
 
@@ -115,6 +115,9 @@ class PageFeatures(tk.Frame):
   def stop_drag(self, event):
       self.last_x = 0
       self.last_y = 0
+
+  def change_page(self, page_name):
+        self.controller.after(0, self.controller.show_page, page_name)
     
 class Page1(PageFeatures):
   def __init__(self, parent, controller):
@@ -123,11 +126,11 @@ class Page1(PageFeatures):
     self.label.pack(pady=50, padx=100)
     
     self.text_button_1 = tk.Label(self, text="Looking for somewhere?", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=50, pady=50, bg="lightblue")
-    self.text_button_1.bind("<Button-1>", lambda event: controller.show_page("Page2"))
+    self.text_button_1.bind("<Button-1>", lambda event: self.change_page("Page2"))
     self.text_button_1.pack()
 
     self.text_button_2 = tk.Label(self, text="Are you lost?", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=50, pady=50, bg="lightgreen")
-    self.text_button_2.bind("<Button-1>", lambda event: controller.show_page("Page3"))  # Change the command to switchToPage3
+    self.text_button_2.bind("<Button-1>", lambda event: self.change_page("Page3"))  # Change the command to switchToPage3
     self.text_button_2.pack()
 
 class Page2(PageFeatures):
@@ -147,7 +150,7 @@ class Page2(PageFeatures):
     self.image_label.pack()
 
     self.text_button = tk.Label(self, text="Go Back to Main Page", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=50, pady=50, bg="lightblue")
-    self.text_button.bind("<Button-1>", lambda event: controller.show_page("Page1"))
+    self.text_button.bind("<Button-1>", lambda event: self.change_page("Page1"))
     self.text_button.pack()
 
     # Bind mouse events
@@ -167,7 +170,7 @@ class Page3(PageFeatures):
     self.label.pack(pady=50)
 
     self.text_button = tk.Label(self, text="Go Back to Main Page", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=50, pady=50, bg="lightgreen")
-    self.text_button.bind("<Button-1>", lambda event: controller.show_page("Page1"))
+    self.text_button.bind("<Button-1>", lambda event: self.change_page("Page1"))
     self.text_button.pack()
 
 
@@ -179,29 +182,40 @@ class VoiceAssistant:
 
     def listen_for_keyword(self):
         while True:
-            with sr.Microphone() as source:
-                print("Listening for keyword...")
-                audio = self.recognizer.listen(source)
+          with sr.Microphone() as source:
+              print("Listening for keyword...")
+              audio = self.recognizer.listen(source)
 
-                try:
-                    detected_text = self.recognizer.recognize_google(audio).lower()
-                    print(detected_text)
-                    if "i am lost" in detected_text:
-                        self.interface.show_page("Page3")
-                        print("Notifying mall staff")
-                    # else: print(detected_text)
-                except sr.UnknownValueError:
-                    pass
-                except sr.RequestError as e:
-                    print("Could not request results; {0}".format(e))
+              try:
+                  detected_text = self.recognizer.recognize_google(audio).lower()
+                  print(detected_text)
+                  if "i am lost" in detected_text:
+                      self.interface.after(0, self.interface.show_page, "Page3")
+                      print("Notifying mall staff")
+                  # else: print(detected_text)
+              except sr.UnknownValueError:
+                  print("pain")
+                  pass
+              except sr.RequestError as e:
+                  print("Could not request results; {0}".format(e))
 
     def voice_input(self):
         print("Help me triggered.")
         self.interface.show_page("Page3")
 
 def main():
+  start_app = threading.Thread(target=ros_nav)
+  start_app.start()
+  app = PageManager()
+  while True:
+    app.update_idletasks()
+    app.update()
+  
+
  
-  # Start the ROS 2 Python Client Library
+  exit(0)
+
+def ros_nav():
   rclpy.init()
  
   # Launch the ROS 2 Navigation Stack
@@ -247,12 +261,6 @@ def main():
   goal_pose.pose.orientation.y = 0.0
   goal_pose.pose.orientation.z = 0.0
   goal_pose.pose.orientation.w = 1.0
- 
-  # sanity check a valid path exists
-  # path = navigator.getPath(initial_pose, goal_pose)
-  start_app = threading.Thread(target=run_app)
-  start_app.start()
-  
   a = 0
   while True:
     # Go to the goal pose
@@ -316,14 +324,6 @@ def main():
  
   # Shut down the ROS 2 Navigation Stack
   navigator.lifecycleShutdown()
- 
-  exit(0)
- 
-def run_app():
-  app = PageManager()
-  while True:
-    app.update_idletasks()
-    app.update()
   
 
 if __name__ == '__main__':
