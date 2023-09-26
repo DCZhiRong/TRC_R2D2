@@ -188,15 +188,15 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
-      width: 7
-      height: 7
+      width: 5
+      height: 5
       resolution: 0.1
       robot_radius: 0.25
-      plugins: ["voxel_layer", "inflation_layer"]
+      plugins: ["voxel_layer", "inflation_layer", "range_sensor_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.4
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -206,8 +206,8 @@ local_costmap:
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
-        observation_sources: scan pointcloud
-        combination_method: 0
+        observation_sources: scan 
+        combination_method: 1
         scan:
           topic: /scan
           max_obstacle_height: 2.0
@@ -259,7 +259,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
         observation_sources: scan pointcloud
-        combination_method: 0
+        combination_method: 1
         scan:
           topic: /scan
           max_obstacle_height: 2.0
@@ -291,7 +291,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.4
       always_send_full_costmap: True
 
 map_server:
@@ -317,7 +317,7 @@ planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 1.0
-      use_astar: True
+      use_astar: False
       allow_unknown: True
 
 smoother_server:
@@ -375,7 +375,7 @@ velocity_smoother:
     use_sim_time: False
     smoothing_frequency: 20.0
     scale_velocities: False
-    feedback: "OPEN_LOOP"
+    feedback: "CLOSED_LOOP"
     max_velocity: [0.26, 0.0, 1.0]
     min_velocity: [-0.26, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
