@@ -60,7 +60,7 @@ class PageManager(tk.Tk):
         self.container = tk.Frame(self)
         self.container.pack(pady=0, padx=0, expand=True)
         self.recognizer = sr.Recognizer()
-        self.start_app = Thread(target=self.ros_nav, args=(self.q,))
+        self.start_app = Thread(target=self.ros_nav, args=(self.q))
         self.start_app.start()
         
         # Dictionary to store all pages
