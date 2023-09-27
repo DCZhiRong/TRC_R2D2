@@ -25,7 +25,8 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult # H
 
 import tkinter as tk
 import speech_recognition as sr
-import threading
+from threading import *
+import queue
 from PIL import Image, ImageTk
 
 bringup_dir = get_package_share_directory('r2d2')
@@ -51,12 +52,16 @@ class PageManager(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("R2D2 Interface")
-        self.geometry("1024x600")
-        self.keyword_detected = threading.Event()  # Shared event for communication
-        self.start_voice_assistant()  # Start the voice assistant in the background
+        self.geometry("800x480")
+        self.q = queue.Queue()
+        #self.keyword_detected = threading.Event()  # Shared event for communication
+        #self.start_voice_assistant()  # Start the voice assistant in the background
         # Create a container frame to hold the pages
         self.container = tk.Frame(self)
-        self.container.pack(side="top", fill="both", expand=True)
+        self.container.pack(pady=0, padx=0, expand=True)
+        self.recognizer = sr.Recognizer()
+        self.start_app = Thread(target=self.ros_nav, args=(self.q,))
+        self.start_app.start()
         
         # Dictionary to store all pages
         self.pages = {}
@@ -80,6 +85,118 @@ class PageManager(tk.Tk):
       assistant = VoiceAssistant(self)
       background_listener = threading.Thread(target=assistant.listen_for_keyword)
       background_listener.start()
+
+    def ros_nav(c):
+      rclpy.init()
+      
+    
+      # Launch the ROS 2 Navigation Stack
+      navigator = BasicNavigator()
+    
+      #Set the robot's initial pose if necessary
+      #initial_pose = PoseStamped()
+      #initial_pose.header.frame_id = 'map'
+      #initial_pose.header.stamp = navigator.get_clock().now().to_msg()
+      #initial_pose.pose.position.x = 0.0
+      #initial_pose.pose.position.y = 0.0
+      #initial_pose.pose.position.z = 0.0
+      #initial_pose.pose.orientation.x = 0.0
+      #initial_pose.pose.orientation.y = 0.0
+      #initial_pose.pose.orientation.z = 0.0
+      #initial_pose.pose.orientation.w = 1.0
+      #navigator.setInitialPose(initial_pose)
+    
+      # Activate navigation, if not autostarted. This should be called after setInitialPose()
+      # or this will initialize at the origin of the map and update the costmap with bogus readings.
+      # If autostart, you should `waitUntilNav2Active()` instead.
+      # navigator.lifecycleStartup()
+    
+      # Wait for navigation to fully activate. Use this line if autostart is set to true.
+      navigator.waitUntilNav2Active()
+    
+      # If desired, you can change or load the map as well
+      # navigator.changeMap('/path/to/map.yaml')
+    
+      # You may use the navigator to clear or obtain costmaps
+      # navigator.clearAllCostmaps()  # also have clearLocalCostmap() and clearGlobalCostmap()
+      # global_costmap = navigator.getGlobalCostmap()
+      # local_costmap = navigator.getLocalCostmap()
+    
+      # Set the robot's goal pose
+      goal_pose = PoseStamped()
+      goal_pose.header.frame_id = 'map'
+      goal_pose.header.stamp = navigator.get_clock().now().to_msg()
+      goal_pose.pose.position.x = 10.0
+      goal_pose.pose.position.y = 2.0
+      goal_pose.pose.position.z = 0.0
+      goal_pose.pose.orientation.x = 0.0
+      goal_pose.pose.orientation.y = 0.0
+      goal_pose.pose.orientation.z = 0.0
+      goal_pose.pose.orientation.w = 1.0
+      a = 0
+      q.put(goal_pose)
+      while True:
+        # Go to the goal pose
+        navigator.goToPose(goal_pose)
+        i = 0
+      
+        # Keep doing stuff as long as the robot is moving towards the goal
+        while not navigator.isTaskComplete():
+          ################################################
+          #
+          # Implement some code here for your application!
+          #
+          ################################################
+      
+          # Do something with the feedback
+          i = i + 1
+          feedback = navigator.getFeedback()
+          if feedback and i % 5 == 0:
+            print('Distance remaining: ' + '{:.2f}'.format(
+                  feedback.distance_remaining) + ' meters.')
+      
+            # Some navigation timeout to demo cancellation
+            if Duration.from_msg(feedback.navigation_time) > Duration(seconds=600.0):
+              navigator.cancelNav()
+      
+            # Some navigation request change to demo preemption
+            if Duration.from_msg(feedback.navigation_time) > Duration(seconds=120.0):
+              goal_pose.pose.position.x = -3.0
+              navigator.goToPose(goal_pose)
+      
+        # Do something depending on the return code
+        result = navigator.getResult()
+        if result == TaskResult.SUCCEEDED:
+            print('Goal succeeded!')
+            if a == 0:
+              goal_pose.header.stamp = navigator.get_clock().now().to_msg()
+              goal_pose.pose.position.x = 0.0
+              goal_pose.pose.position.y = -7.0
+              goal_pose.pose.position.z = 0.0
+              goal_pose.pose.orientation.x = 0.0
+              goal_pose.pose.orientation.y = 0.0
+              goal_pose.pose.orientation.z = 0.0
+              goal_pose.pose.orientation.w = 1.0
+              a ^= 1
+            elif a == 1:
+              goal_pose.header.stamp = navigator.get_clock().now().to_msg()
+              goal_pose.pose.position.x = 10.0
+              goal_pose.pose.position.y = 3.0
+              goal_pose.pose.position.z = 0.0
+              goal_pose.pose.orientation.x = 0.0
+              goal_pose.pose.orientation.y = 0.0
+              goal_pose.pose.orientation.z = 0.0
+              goal_pose.pose.orientation.w = 1.0
+              a ^= 1
+        elif result == TaskResult.CANCELED:
+            print('Goal was canceled!')
+        elif result == TaskResult.FAILED:
+            print('Goal failed!')
+        else:
+            print('Goal has an invalid return status!')
+    
+      # Shut down the ROS 2 Navigation Stack
+      navigator.lifecycleShutdown()
 
 class PageFeatures(tk.Frame):
   def __init__(self, parent, controller):
@@ -105,7 +222,7 @@ class PageFeatures(tk.Frame):
       elif self.zoom_factor > 2.0:
           self.zoom_factor = 2.0
 
-      self.image = self.image.resize((int(400 * self.zoom_factor), int(400 * self.zoom_factor)))
+      self.image = self.image.resize((int(200 * self.zoom_factor), int(200 * self.zoom_factor)))
       self.image_photo = ImageTk.PhotoImage(self.image)
       self.image_label.config(image=self.image_photo)
 
@@ -142,7 +259,7 @@ class Page2(PageFeatures):
 
             # Load the original image
     self.image = Image.open(os.path.join(bringup_dir, 'maps', 'New_ob.pgm'))
-    self.image = self.image.resize((400, 400))  # Resize for display
+    self.image = self.image.resize((200, 200))  # Resize for display
     self.image_photo = ImageTk.PhotoImage(self.image)
 
     # Create a label with the PhotoImage
@@ -204,126 +321,11 @@ class VoiceAssistant:
         self.interface.show_page("Page3")
 
 def main():
-  start_app = threading.Thread(target=ros_nav)
-  start_app.start()
   app = PageManager()
   while True:
     app.update_idletasks()
     app.update()
-  
-
- 
   exit(0)
-
-def ros_nav():
-  rclpy.init()
- 
-  # Launch the ROS 2 Navigation Stack
-  navigator = BasicNavigator()
- 
-  #Set the robot's initial pose if necessary
-  #initial_pose = PoseStamped()
-  #initial_pose.header.frame_id = 'map'
-  #initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-  #initial_pose.pose.position.x = 0.0
-  #initial_pose.pose.position.y = 0.0
-  #initial_pose.pose.position.z = 0.0
-  #initial_pose.pose.orientation.x = 0.0
-  #initial_pose.pose.orientation.y = 0.0
-  #initial_pose.pose.orientation.z = 0.0
-  #initial_pose.pose.orientation.w = 1.0
-  #navigator.setInitialPose(initial_pose)
- 
-  # Activate navigation, if not autostarted. This should be called after setInitialPose()
-  # or this will initialize at the origin of the map and update the costmap with bogus readings.
-  # If autostart, you should `waitUntilNav2Active()` instead.
-  # navigator.lifecycleStartup()
- 
-  # Wait for navigation to fully activate. Use this line if autostart is set to true.
-  navigator.waitUntilNav2Active()
- 
-  # If desired, you can change or load the map as well
-  # navigator.changeMap('/path/to/map.yaml')
- 
-  # You may use the navigator to clear or obtain costmaps
-  # navigator.clearAllCostmaps()  # also have clearLocalCostmap() and clearGlobalCostmap()
-  # global_costmap = navigator.getGlobalCostmap()
-  # local_costmap = navigator.getLocalCostmap()
- 
-  # Set the robot's goal pose
-  goal_pose = PoseStamped()
-  goal_pose.header.frame_id = 'map'
-  goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-  goal_pose.pose.position.x = 10.0
-  goal_pose.pose.position.y = 2.0
-  goal_pose.pose.position.z = 0.0
-  goal_pose.pose.orientation.x = 0.0
-  goal_pose.pose.orientation.y = 0.0
-  goal_pose.pose.orientation.z = 0.0
-  goal_pose.pose.orientation.w = 1.0
-  a = 0
-  while True:
-    # Go to the goal pose
-    navigator.goToPose(goal_pose)
-    i = 0
-  
-    # Keep doing stuff as long as the robot is moving towards the goal
-    while not navigator.isTaskComplete():
-      ################################################
-      #
-      # Implement some code here for your application!
-      #
-      ################################################
-  
-      # Do something with the feedback
-      i = i + 1
-      feedback = navigator.getFeedback()
-      if feedback and i % 5 == 0:
-        print('Distance remaining: ' + '{:.2f}'.format(
-              feedback.distance_remaining) + ' meters.')
-  
-        # Some navigation timeout to demo cancellation
-        if Duration.from_msg(feedback.navigation_time) > Duration(seconds=600.0):
-          navigator.cancelNav()
-  
-        # Some navigation request change to demo preemption
-        if Duration.from_msg(feedback.navigation_time) > Duration(seconds=120.0):
-          goal_pose.pose.position.x = -3.0
-          navigator.goToPose(goal_pose)
-  
-    # Do something depending on the return code
-    result = navigator.getResult()
-    if result == TaskResult.SUCCEEDED:
-        print('Goal succeeded!')
-        if a == 0:
-          goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-          goal_pose.pose.position.x = 0.0
-          goal_pose.pose.position.y = -7.0
-          goal_pose.pose.position.z = 0.0
-          goal_pose.pose.orientation.x = 0.0
-          goal_pose.pose.orientation.y = 0.0
-          goal_pose.pose.orientation.z = 0.0
-          goal_pose.pose.orientation.w = 1.0
-          a ^= 1
-        elif a == 1:
-          goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-          goal_pose.pose.position.x = 10.0
-          goal_pose.pose.position.y = 3.0
-          goal_pose.pose.position.z = 0.0
-          goal_pose.pose.orientation.x = 0.0
-          goal_pose.pose.orientation.y = 0.0
-          goal_pose.pose.orientation.z = 0.0
-          goal_pose.pose.orientation.w = 1.0
-          a ^= 1
-    elif result == TaskResult.CANCELED:
-        print('Goal was canceled!')
-    elif result == TaskResult.FAILED:
-        print('Goal failed!')
-    else:
-        print('Goal has an invalid return status!')
- 
-  # Shut down the ROS 2 Navigation Stack
-  navigator.lifecycleShutdown()
   
 
 if __name__ == '__main__':
