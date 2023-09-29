@@ -9,8 +9,8 @@
                 <param name="right_wheel_name">right_wheel_joint</param>
                 <param name="loop_rate">30</param>
                 <!--param name="device">/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0</param-->
-                <!--param name="device">/dev/ttyUSB0</param-->
-                <param name="device">/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0</param>
+                <param name="device">/dev/serial/by-id/usb-1a86_USB2.0-Ser_-if00-port0</param>
+                <!--param name="device">/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0</param-->
                 <param name="baud_rate">57600</param>
                 <param name="timeout_ms">1000</param>
                 <param name="enc_counts_per_rev">16383</param>
