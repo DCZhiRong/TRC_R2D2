@@ -1,13 +1,20 @@
+#!/usr/bin/env python3
+
 import time  # Time library
 import os
 from geometry_msgs.msg import PoseStamped # Pose with ref frame and timestamp
+from std_msgs.msg import String
 from rclpy.duration import Duration # Handles time for ROS 2
 import rclpy # Python client library for ROS 2
+from rclpy.node import Node
 from ament_index_python.packages import get_package_share_directory
 import copy
 import tkinter as tk
 from PIL import Image, ImageTk
 
+commands = []
+
+goals = []
 bringup_dir = get_package_share_directory('r2d2')
 
 class Location():
@@ -93,7 +100,7 @@ class PageFeatures(tk.Frame):
 
   def multi_action(self, location, page):
     end_goal = copy.deepcopy(location.goal_pose)
-    q.put(end_goal)
+    goals.append(end_goal)
     self.change_page(page)
 
     
@@ -156,11 +163,50 @@ class Page3(PageFeatures):
     self.text_button.bind("<Button-1>", lambda event: self.change_page("Page1"))
     self.text_button.pack()
 
-def main():
-  app = PageManager()
-  while True:
-    app.update_idletasks()
-    app.update()
+class Publisher(Node):
+
+    def __init__(self):
+        self.app = PageManager()
+        super().__init__('tk_destinations_node')
+        self.publisher1 = self.create_publisher(PoseStamped, 'tk_destinations', 10)
+        self.subscription = self.create_subscription(String, 'result', self.listener_callback, 10)
+        self.publisher2 = self.create_publisher(String, 'nav_commands', 10)
+        timer_period = 0.02  # seconds
+        self.topic1 = self.create_timer(timer_period, self.timer_callback)
+        self.topic2 = self.create_timer(timer_period, self.timer2_callback)
+        self.i = 0
+
+    def listener_callback(self, msg):
+        words = msg.data.lower()
+        if "i am lost" in words:
+          self.app.show_page("Page3")
+        if "stop" in words or "excuse me" in words or "help" in words:
+          commands.append('stop')
+
+    def timer2_callback(self):
+        msg = String()
+        if commands:
+          msg.data = commands.pop()
+          self.publisher2.publish(msg)
+          self.get_logger().info('Publishing: "%s"' % msg)
+
+    def timer_callback(self):
+        self.app.update_idletasks()
+        self.app.update()
+        msg = PoseStamped()
+        if goals:
+          msg = goals.pop()
+          self.publisher1.publish(msg)
+          self.get_logger().info('Publishing: "%s"' % msg)
+        self.i +=1
+
+
+def main(args=None):
+  rclpy.init(args=args)
+  goal_publisher = Publisher()
+  rclpy.spin(goal_publisher)
+  minimal_publisher.destroy_node()
+  rclpy.shutdown()
   exit(0)
   
 

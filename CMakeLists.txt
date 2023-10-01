@@ -17,9 +17,16 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+install(
+  DIRECTORY config description launch worlds maps scripts r2d2
+  DESTINATION share/${PROJECT_NAME}
+)
+
 
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
@@ -43,9 +50,5 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(
-  DIRECTORY config description launch worlds maps scripts
-  DESTINATION share/${PROJECT_NAME}
-)
 
 ament_package()
