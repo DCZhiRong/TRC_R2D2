@@ -1,39 +1,14 @@
-#! /usr/bin/env python3
-# Copyright 2021 Samsung Research America
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# Modified by AutomaticAddison.com
- 
 import time  # Time library
 import os
 from geometry_msgs.msg import PoseStamped # Pose with ref frame and timestamp
 from rclpy.duration import Duration # Handles time for ROS 2
 import rclpy # Python client library for ROS 2
 from ament_index_python.packages import get_package_share_directory
-from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult # Helper module
 import copy
 import tkinter as tk
-import speech_recognition as sr
-from threading import *
-import queue
 from PIL import Image, ImageTk
 
 bringup_dir = get_package_share_directory('r2d2')
-'''
-Navigates a robot from an initial pose to a goal pose.
-'''
-q = queue.Queue()
 
 class Location():
   def __init__(self, posx, posy, posz):
@@ -56,13 +31,8 @@ class PageManager(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("R2D2 Interface")
         self.geometry("800x480")
-        self.start_voice_assistant()  # Start the voice assistant in the background
-        # Create a container frame to hold the pages
         self.container = tk.Frame(self)
         self.container.pack(pady=0, padx=0, expand=True)
-        self.recognizer = sr.Recognizer()
-        self.start_app = Thread(target=self.ros_nav, args=(q,))
-        self.start_app.start()
         
         # Dictionary to store all pages
         self.pages = {}
@@ -82,109 +52,6 @@ class PageManager(tk.Tk):
         if page:
             page.tkraise()
     
-    def start_voice_assistant(self):
-      assistant = VoiceAssistant(self)
-      background_listener = Thread(target=assistant.listen_for_keyword)
-      background_listener.start()
-
-    def ros_nav(self, c):
-      rclpy.init()
-      
-    
-      # Launch the ROS 2 Navigation Stack
-      navigator = BasicNavigator()
-    
-      #Set the robot's initial pose if necessary
-      #initial_pose = PoseStamped()
-      #initial_pose.header.frame_id = 'map'
-      #initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-      #initial_pose.pose.position.x = 0.0
-      #initial_pose.pose.position.y = 0.0
-      #initial_pose.pose.position.z = 0.0
-      #initial_pose.pose.orientation.x = 0.0
-      #initial_pose.pose.orientation.y = 0.0
-      #initial_pose.pose.orientation.z = 0.0
-      #initial_pose.pose.orientation.w = 1.0
-      #navigator.setInitialPose(initial_pose)
-    
-      # Activate navigation, if not autostarted. This should be called after setInitialPose()
-      # or this will initialize at the origin of the map and update the costmap with bogus readings.
-      # If autostart, you should `waitUntilNav2Active()` instead.
-      # navigator.lifecycleStartup()
-    
-      # Wait for navigation to fully activate. Use this line if autostart is set to true.
-      navigator.waitUntilNav2Active()
-    
-      # If desired, you can change or load the map as well
-      # navigator.changeMap('/path/to/map.yaml')
-    
-      # You may use the navigator to clear or obtain costmaps
-      # navigator.clearAllCostmaps()  # also have clearLocalCostmap() and clearGlobalCostmap()
-      # global_costmap = navigator.getGlobalCostmap()
-      # local_costmap = navigator.getLocalCostmap()
-    
-      # Set the robot's goal pose
-      goal_pose = PoseStamped()
-      goal_pose.header.frame_id = 'map'
-      goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-      goal_pose.pose.position.x = 10.0
-      goal_pose.pose.position.y = 2.0
-      goal_pose.pose.position.z = 0.0
-      goal_pose.pose.orientation.x = 0.0
-      goal_pose.pose.orientation.y = 0.0
-      goal_pose.pose.orientation.z = 0.0
-      goal_pose.pose.orientation.w = 1.0
-      a = 0
-      pause_at_goal = False
-      #q.put(goal_pose)
-      while True:
-        try:
-          goal_pose = c.get(block=False)
-          goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-          navigator.cancelTask()
-          pause_at_goal = True
-          navigator.goToPose(goal_pose)
-          continue
-        except:
-          pass
-        # Do something depending on the return code
-        if navigator.isTaskComplete():
-            print('Goal succeeded!')
-            if pause_at_goal:
-              print("pausing")
-              time.sleep(10)
-              pause_at_goal = False
-              a ^= 1
-            if a == 0:
-              goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-              goal_pose.pose.position.x = 0.0
-              goal_pose.pose.position.y = -7.0
-              goal_pose.pose.position.z = 0.0
-              goal_pose.pose.orientation.x = 0.0
-              goal_pose.pose.orientation.y = 0.0
-              goal_pose.pose.orientation.z = 0.0
-              goal_pose.pose.orientation.w = 1.0
-            elif a == 1:
-              goal_pose.header.stamp = navigator.get_clock().now().to_msg()
-              goal_pose.pose.position.x = 10.0
-              goal_pose.pose.position.y = 3.0
-              goal_pose.pose.position.z = 0.0
-              goal_pose.pose.orientation.x = 0.0
-              goal_pose.pose.orientation.y = 0.0
-              goal_pose.pose.orientation.z = 0.0
-              goal_pose.pose.orientation.w = 1.0
-            a ^= 1
-            navigator.goToPose(goal_pose)
-        #result = navigator.getResult()
-        #if result == TaskResult.CANCELED:
-        #    print('Goal was canceled!')
-        #elif result == TaskResult.FAILED:
-        #    print('Goal failed!')
-        #else:
-        #    print('Goal has an invalid return status!')
-    
-      # Shut down the ROS 2 Navigation Stack
-      navigator.lifecycleShutdown()
 
 class PageFeatures(tk.Frame):
   def __init__(self, parent, controller):

@@ -27,6 +27,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   scripts/nav2_pos.py
+  scripts/tk_ui.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -43,7 +44,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch worlds maps
+  DIRECTORY config description launch worlds maps scripts
   DESTINATION share/${PROJECT_NAME}
 )
 
