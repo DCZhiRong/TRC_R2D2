@@ -61,9 +61,8 @@ class Subscriber(Node):
         self.starttime = 0
         self.curtime = 0
         self.topic2 = self.create_timer(timer_period, self.ros_nav)
-        self.subscription1 = self.create_subscription(String, 'result', self.listener_callback1, 10)
+        self.subscription1 = self.create_subscription(String, 'nav_commands', self.listener_callback1, 10)
         self.subscription2 = self.create_subscription(PoseStamped, 'tk_destinations', self.listener_callback2, 10)
-        print("survived")
         
 
     def listener_callback1(self, msg):

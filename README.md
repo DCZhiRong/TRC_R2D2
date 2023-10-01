@@ -55,6 +55,11 @@ Realsense(instructions taken from intel's repo):
 https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages
 
 
+### Software drivers
+Even more than that are the dependencies used for some of the software stuff
+Voice recog:
+https://gitlab.com/bob-ros2/voskros
+
 
 ## How to run the robot in simulation:
 * Start the simulation launch file:
@@ -129,3 +134,19 @@ Navigation
 ```
 ros2 launch r2d2 navigation_launch.py use_sim_time:=true/false
 ```
+
+
+## Ui stuff
+When you wanna run the ui programs use these commands
+```
+ros2 run r2d2 tk_ui.py
+```
+This launches the ui, which is, for now, a requirement for voice commands to work(my bad)
+Commands so far:
+  I am lost: Triggers emergency message broadcast
+  Stop/Excuse me/Help: Stops the robot for 5 mins
+
+'''
+ros2 run r2d2 nav2_pos.py
+'''
+This launches the automatic navigation stuff 
