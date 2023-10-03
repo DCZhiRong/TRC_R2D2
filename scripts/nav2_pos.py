@@ -75,7 +75,7 @@ class Subscriber(Node):
         goals.append(goal)
 
     def ros_nav(self):
-      delay_mins = 5
+      delay_mins = 0.1
       #navigator = BasicNavigator()
       #navigator.waitUntilNav2Active()
       if self.curtime - self.starttime < delay_mins*60:
