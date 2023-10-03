@@ -29,8 +29,8 @@ class Location():
     self.goal_pose.pose.orientation.z = 0.0
     self.goal_pose.pose.orientation.w = 1.0
 
-locations = {"CnC lab": Location(3.0, -2.0, 0.00447),
-            "3d printing lab":Location(6.0, -1.0, 0.00447),
+locations = {"CnC lab": Location(-14.8, 1.290, 0.0),
+            "3d printing lab":Location(-4.35, 0.603, 0.0),
             }
 
 class PageManager(tk.Tk):
