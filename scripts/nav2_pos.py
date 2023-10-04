@@ -27,6 +27,8 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult # H
 from threading import *
 import queue
 goals = []
+goals_name = []
+goals_name_reached = []
 commands = []
 bringup_dir = get_package_share_directory('r2d2')
 '''
@@ -60,9 +62,13 @@ class Subscriber(Node):
         self.timer_start = False
         self.starttime = 0
         self.curtime = 0
+        self.destination_name = ""
         self.topic2 = self.create_timer(timer_period, self.ros_nav)
         self.subscription1 = self.create_subscription(String, 'nav_commands', self.listener_callback1, 10)
         self.subscription2 = self.create_subscription(PoseStamped, 'tk_destinations', self.listener_callback2, 10)
+        self.subscription3 = self.create_subscription(PoseStamped, 'tk_destinations_names', self.listener_callback3, 10)
+        self.publisher1 = self.create_publisher(String, 'tk_destinations_reached', 10)
+        self.topic3 = self.create_timer(timer_period, self.publish_reached)
         
 
     def listener_callback1(self, msg):
@@ -73,6 +79,17 @@ class Subscriber(Node):
     def listener_callback2(self, msg):
         goal = msg
         goals.append(goal)
+
+    def listener_callback3(self, msg):
+        goal_name = msg.data
+        goals_name.append(goal_name)
+
+    def publish_reached(self):
+      msg = String()
+        if goals_name_reached:
+          msg.data = goals_name_reached.pop()
+          self.publisher1.publish(msg)
+          self.get_logger().info('Publishing: "%s"' % msg)
 
     def ros_nav(self):
       delay_mins = 0.1
@@ -87,6 +104,7 @@ class Subscriber(Node):
             self.timer_start = True
         if goals:
           item = goals.pop()
+          self.destination_name = goals_name.pop()
           self.goal_pose = item
           self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
           self.navigator.cancelTask()
@@ -103,32 +121,34 @@ class Subscriber(Node):
         self.curtime = time.time()
         return
       if self.navigator.isTaskComplete():
-          print('Goal succeeded!')
-          if self.pause_at_goal:
-            print("pausing")
-            time.sleep(10)
-            self.pause_at_goal = False
-            self.a ^= 1
-          if self.a == 0:
-            self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
-            self.goal_pose.pose.position.x = 98.0
-            self.goal_pose.pose.position.y = 16.0
-            self.goal_pose.pose.position.z = 0.0
-            self.goal_pose.pose.orientation.x = 0.0
-            self.goal_pose.pose.orientation.y = 0.0
-            self.goal_pose.pose.orientation.z = 0.0
-            self.goal_pose.pose.orientation.w = 1.0
-          elif self.a == 1:
-            self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
-            self.goal_pose.pose.position.x = 40.0
-            self.goal_pose.pose.position.y = 9.0
-            self.goal_pose.pose.position.z = 0.00
-            self.goal_pose.pose.orientation.x = 0.0
-            self.goal_pose.pose.orientation.y = 0.0
-            self.goal_pose.pose.orientation.z = 0.0
-            self.goal_pose.pose.orientation.w = 1.0
+        print('Goal succeeded!')
+        if self.pause_at_goal:
+          goals_name_reached.append(self.destination_name)
+          self.destination_name = ""
+          print("pausing")
+          time.sleep(10)
+          self.pause_at_goal = False
           self.a ^= 1
-          self.navigator.goToPose(self.goal_pose)
+        if self.a == 0:
+          self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
+          self.goal_pose.pose.position.x = 98.0
+          self.goal_pose.pose.position.y = 16.0
+          self.goal_pose.pose.position.z = 0.0
+          self.goal_pose.pose.orientation.x = 0.0
+          self.goal_pose.pose.orientation.y = 0.0
+          self.goal_pose.pose.orientation.z = 0.0
+          self.goal_pose.pose.orientation.w = 1.0
+        elif self.a == 1:
+          self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
+          self.goal_pose.pose.position.x = 40.0
+          self.goal_pose.pose.position.y = 9.0
+          self.goal_pose.pose.position.z = 0.00
+          self.goal_pose.pose.orientation.x = 0.0
+          self.goal_pose.pose.orientation.y = 0.0
+          self.goal_pose.pose.orientation.z = 0.0
+          self.goal_pose.pose.orientation.w = 1.0
+        self.a ^= 1
+        self.navigator.goToPose(self.goal_pose)
       #result = navigator.getResult()
       #if result == TaskResult.CANCELED:
       #    print('Goal was canceled!')

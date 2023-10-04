@@ -10,15 +10,18 @@ from rclpy.node import Node
 from ament_index_python.packages import get_package_share_directory
 import copy
 import tkinter as tk
+import pyttsx3
 from PIL import Image, ImageTk
 
 commands = []
 
 goals = []
+goal_names = []
 bringup_dir = get_package_share_directory('r2d2')
 
 class Location():
-  def __init__(self, posx, posy, posz):
+  def __init__(self, name, posx, posy, posz):
+    self.name = name
     self.goal_pose = PoseStamped()
     self.goal_pose.header.frame_id = 'map'
     self.goal_pose.pose.position.x = posx
@@ -29,14 +32,14 @@ class Location():
     self.goal_pose.pose.orientation.z = 0.0
     self.goal_pose.pose.orientation.w = 1.0
 
-locations = {"CnC lab": Location(-14.8, 1.290, 0.0),
-            "3d printing lab":Location(-4.35, 0.603, 0.0),
-            "Chemistry lab":Location(-4.35, 0.603, 0.0),
-            "Woodworking lab":Location(-4.35, 0.603, 0.0),
-            "Vortex lab":Location(-4.35, 0.603, 0.0),
-            "Mechanical lab":Location(-4.35, 0.603, 0.0),
-            "Workshop":Location(-4.35, 0.603, 0.0),
-            "Power and machine lab":Location(-4.35, 0.603, 0.0),}
+locations = {"CnC lab": Location("CnC lab",-14.8, 1.290, 0.0),
+            "3d printing lab":Location("3d printing lab",-4.35, 0.603, 0.0),
+            "Chemistry lab":Location("Chemistry lab",-4.35, 0.603, 0.0),
+            "Woodworking lab":Location("Woodworking lab",-4.35, 0.603, 0.0),
+            "Vortex lab":Location("Vortex lab",-4.35, 0.603, 0.0),
+            "Mechanical lab":Location("Mechanical lab",-4.35, 0.603, 0.0),
+            "Workshop":Location("Workshop",-4.35, 0.603, 0.0),
+            "Power and machine lab":Location("Power and machine lab",-4.35, 0.603, 0.0),}
 
 class PageManager(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -104,8 +107,9 @@ class PageFeatures(tk.Frame):
         self.controller.after(0, self.controller.show_page, page_name)
 
   def multi_action(self, location, page):
-    end_goal = copy.deepcopy(location.goal_pose)
-    goals.append(end_goal)
+    end_goal = copy.deepcopy(location)
+    goals.append(end_goal.goal_pose)
+    goal_names.append(end_goal.name)
     self.change_page(page)
 
     
@@ -139,19 +143,19 @@ class Page2(PageFeatures):
     self.image_label.pack()
     self.location_button1 = tk.Label(self, text="Go to CnC Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button1.bind("<Button-1>", lambda event: self.multi_action(locations["CnC lab"], "Page1"))
-    self.location_button1.pack(padx=0, pady=0,side="left")
+    self.location_button1.pack()
     self.location_button2 = tk.Label(self, text="Go to 3d printing Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button2.bind("<Button-1>", lambda event: self.multi_action(locations["3d printing lab"], "Page1"))
-    self.location_button2.pack(padx=0, pady=6,side="left")
+    self.location_button2.pack()
     self.location_button3 = tk.Label(self, text="Go to Chemistry lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button3.bind("<Button-1>", lambda event: self.multi_action(locations["Chemistry lab"], "Page1"))
-    self.location_button3.pack(padx=0, pady=12,side="left")
+    self.location_button3.pack()
     self.location_button4 = tk.Label(self, text="Go to Woodworking Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
-    self.location_button4.bind("<Button-1>", lambda event: self.multi_action(locations["Woodworking Lab"], "Page1"))
-    self.location_button4.pack(padx=0, pady=18,side="left")
+    self.location_button4.bind("<Button-1>", lambda event: self.multi_action(locations["Woodworking lab"], "Page1"))
+    self.location_button4.pack()
     self.location_button5 = tk.Label(self, text="Go to Vortex lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button5.bind("<Button-1>", lambda event: self.multi_action(locations["Vortex lab"], "Page1"))
-    self.location_button5.pack(padx=0, pady=24,side="left")
+    self.location_button5.pack()
     self.location_button6 = tk.Label(self, text="Go to Mechanical lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button6.bind("<Button-1>", lambda event: self.multi_action(locations["Mechanical lab"], "Page1"))
     self.location_button6.pack()
@@ -192,7 +196,9 @@ class Publisher(Node):
         self.app = PageManager()
         super().__init__('tk_destinations_node')
         self.publisher1 = self.create_publisher(PoseStamped, 'tk_destinations', 10)
+        self.publisher3 = self.create_publisher(String, 'tk_destinations_names', 10)
         self.subscription = self.create_subscription(String, 'result', self.listener_callback, 10)
+        self.subscription1 = self.create_subscription(String, 'tk_destinations_reached', self.listener_callback1, 10)
         self.publisher2 = self.create_publisher(String, 'nav_commands', 10)
         timer_period = 0.02  # seconds
         self.topic1 = self.create_timer(timer_period, self.timer_callback)
@@ -206,6 +212,12 @@ class Publisher(Node):
         if "stop" in words or "excuse me" in words or "help" in words:
           commands.append('stop')
 
+    def listener_callback1(self, msg):
+        words = msg.data.lower()
+        engine = pyttsx3.init()
+        engine.say(words)
+        engine.runAndWait()
+
     def timer2_callback(self):
         msg = String()
         if commands:
@@ -217,9 +229,12 @@ class Publisher(Node):
         self.app.update_idletasks()
         self.app.update()
         msg = PoseStamped()
+        name = String()
         if goals:
           msg = goals.pop()
+          name.data = goal_names.pop()
           self.publisher1.publish(msg)
+          self.publisher3.publish(name)
           self.get_logger().info('Publishing: "%s"' % msg)
         self.i +=1
 
