@@ -31,7 +31,12 @@ class Location():
 
 locations = {"CnC lab": Location(-14.8, 1.290, 0.0),
             "3d printing lab":Location(-4.35, 0.603, 0.0),
-            }
+            "Chemistry lab":Location(-4.35, 0.603, 0.0),
+            "Woodworking lab":Location(-4.35, 0.603, 0.0),
+            "Vortex lab":Location(-4.35, 0.603, 0.0),
+            "Mechanical lab":Location(-4.35, 0.603, 0.0),
+            "Workshop":Location(-4.35, 0.603, 0.0),
+            "Power and machine lab":Location(-4.35, 0.603, 0.0),}
 
 class PageManager(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -134,10 +139,28 @@ class Page2(PageFeatures):
     self.image_label.pack()
     self.location_button1 = tk.Label(self, text="Go to CnC Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button1.bind("<Button-1>", lambda event: self.multi_action(locations["CnC lab"], "Page1"))
-    self.location_button1.pack()
+    self.location_button1.pack(padx=0, pady=0,side="left")
     self.location_button2 = tk.Label(self, text="Go to 3d printing Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.location_button2.bind("<Button-1>", lambda event: self.multi_action(locations["3d printing lab"], "Page1"))
-    self.location_button2.pack()
+    self.location_button2.pack(padx=0, pady=6,side="left")
+    self.location_button3 = tk.Label(self, text="Go to Chemistry lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button3.bind("<Button-1>", lambda event: self.multi_action(locations["Chemistry lab"], "Page1"))
+    self.location_button3.pack(padx=0, pady=12,side="left")
+    self.location_button4 = tk.Label(self, text="Go to Woodworking Lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button4.bind("<Button-1>", lambda event: self.multi_action(locations["Woodworking Lab"], "Page1"))
+    self.location_button4.pack(padx=0, pady=18,side="left")
+    self.location_button5 = tk.Label(self, text="Go to Vortex lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button5.bind("<Button-1>", lambda event: self.multi_action(locations["Vortex lab"], "Page1"))
+    self.location_button5.pack(padx=0, pady=24,side="left")
+    self.location_button6 = tk.Label(self, text="Go to Mechanical lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button6.bind("<Button-1>", lambda event: self.multi_action(locations["Mechanical lab"], "Page1"))
+    self.location_button6.pack()
+    self.location_button7 = tk.Label(self, text="Go to Workshop", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button7.bind("<Button-1>", lambda event: self.multi_action(locations["Workshop"], "Page1"))
+    self.location_button7.pack()
+    self.location_button8 = tk.Label(self, text="Go to Power and machine lab", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
+    self.location_button8.bind("<Button-1>", lambda event: self.multi_action(locations["Power and machine lab"], "Page1"))
+    self.location_button8.pack()
     self.return_button = tk.Label(self, text="Go Back to Main Page", font=("Helvetica", 16, "bold"), relief="raised", bd=5, padx=5, pady=5, bg="lightblue")
     self.return_button.bind("<Button-1>", lambda event: self.change_page("Page1"))
     self.return_button.pack()
