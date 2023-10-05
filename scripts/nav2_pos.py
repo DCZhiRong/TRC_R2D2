@@ -86,10 +86,10 @@ class Subscriber(Node):
 
     def publish_reached(self):
       msg = String()
-        if goals_name_reached:
-          msg.data = goals_name_reached.pop()
-          self.publisher1.publish(msg)
-          self.get_logger().info('Publishing: "%s"' % msg)
+      if goals_name_reached:
+        msg.data = goals_name_reached.pop()
+        self.publisher1.publish(msg)
+        self.get_logger().info('Publishing: "%s"' % msg)
 
     def ros_nav(self):
       delay_mins = 0.1
