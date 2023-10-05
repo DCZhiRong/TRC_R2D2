@@ -32,8 +32,8 @@ class Location():
     self.goal_pose.pose.orientation.z = 0.0
     self.goal_pose.pose.orientation.w = 1.0
 
-locations = {"CnC lab": Location("CnC lab",-14.8, 1.290, 0.0),
-            "3d printing lab":Location("3d printing lab",-4.35, 0.603, 0.0),
+locations = {"CnC lab": Location("CnC lab",62.2, 10.20, 0.0),
+            "3d printing lab":Location("3d printing lab",39.4, 10.2, 0.0),
             "Chemistry lab":Location("Chemistry lab",-4.35, 0.603, 0.0),
             "Woodworking lab":Location("Woodworking lab",-4.35, 0.603, 0.0),
             "Vortex lab":Location("Vortex lab",-4.35, 0.603, 0.0),
