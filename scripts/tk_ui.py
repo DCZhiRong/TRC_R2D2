@@ -88,9 +88,9 @@ class PageFeatures(tk.Frame):
       self.zoom_factor += dy * 0.01  # Adjust zoom factor based on vertical movement
 
       if self.zoom_factor < 0.5:
-          self.zoom_factor = 0.5
+        self.zoom_factor = 0.5
       elif self.zoom_factor > 2.0:
-          self.zoom_factor = 2.0
+        self.zoom_factor = 2.0
 
       self.image = self.image.resize((int(200 * self.zoom_factor), int(200 * self.zoom_factor)))
       self.image_photo = ImageTk.PhotoImage(self.image)
