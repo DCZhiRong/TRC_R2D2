@@ -92,7 +92,7 @@ class Subscriber(Node):
         self.get_logger().info('Publishing: "%s"' % msg)
 
     def ros_nav(self):
-      delay_mins = 0.1
+      delay_mins = 5
       #navigator = BasicNavigator()
       #navigator.waitUntilNav2Active()
       if self.curtime - self.starttime < delay_mins*60:
@@ -104,7 +104,6 @@ class Subscriber(Node):
             self.timer_start = True
         if goals:
           item = goals.pop()
-          self.destination_name = goals_name.pop()
           self.goal_pose = item
           self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
           self.navigator.cancelTask()
@@ -113,6 +112,8 @@ class Subscriber(Node):
           self.curtime = 0
           self.start_time = 0
           self.timer_start = False
+        if goals_name:
+          self.destination_name = goals_name.pop()
       else:
         self.curtime = 0
         self.start_time = 0
