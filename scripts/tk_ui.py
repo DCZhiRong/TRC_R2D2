@@ -32,14 +32,14 @@ class Location():
     self.goal_pose.pose.orientation.z = 0.0
     self.goal_pose.pose.orientation.w = 1.0
 
-locations = {"CnC lab": Location("CnC lab",62.2, 10.20, 0.0),
-            "3d printing lab":Location("3d printing lab",39.4, 10.2, 0.0),
-            "Chemistry lab":Location("Chemistry lab",-4.35, 0.603, 0.0),
+locations = {"CnC lab": Location("CnC lab",29.1, 1.6, 0.0),
+            "3d printing lab":Location("3d printing lab",5.25, 1.57, 0.0),
+            "Chemistry lab":Location("Chemistry lab",21.0, 3.54, 0.0),
             "Woodworking lab":Location("Woodworking lab",-4.35, 0.603, 0.0),
-            "Vortex lab":Location("Vortex lab",-4.35, 0.603, 0.0),
+            "Vortex lab":Location("Vortex lab",16.3, 0.43, 0.0),
             "Mechanical lab":Location("Mechanical lab",-4.35, 0.603, 0.0),
-            "Workshop":Location("Workshop",-4.35, 0.603, 0.0),
-            "Power and machine lab":Location("Power and machine lab",-4.35, 0.603, 0.0),}
+            "Workshop":Location("Workshop",1.63, -1.44, 0.0),
+            "Power and machine lab":Location("Power and machine lab",38.3, 3.0, 0.0),}
 
 class PageManager(tk.Tk):
     def __init__(self, *args, **kwargs):
