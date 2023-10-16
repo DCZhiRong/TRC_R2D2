@@ -45,8 +45,8 @@ class Subscriber(Node):
         self.goal_pose = PoseStamped()
         self.goal_pose.header.frame_id = 'map'
         self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
-        self.goal_pose.pose.position.x = 40.2
-        self.goal_pose.pose.position.y = 9.0
+        self.goal_pose.pose.position.x = 1.32
+        self.goal_pose.pose.position.y = 0.0
         self.goal_pose.pose.position.z = 0.00
         self.goal_pose.pose.orientation.x = 0.0
         self.goal_pose.pose.orientation.y = 0.0
@@ -132,8 +132,8 @@ class Subscriber(Node):
           self.a ^= 1
         if self.a == 0:
           self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
-          self.goal_pose.pose.position.x = 98.0
-          self.goal_pose.pose.position.y = 16.0
+          self.goal_pose.pose.position.x = 66.6
+          self.goal_pose.pose.position.y = 6.65
           self.goal_pose.pose.position.z = 0.0
           self.goal_pose.pose.orientation.x = 0.0
           self.goal_pose.pose.orientation.y = 0.0
@@ -141,8 +141,8 @@ class Subscriber(Node):
           self.goal_pose.pose.orientation.w = 1.0
         elif self.a == 1:
           self.goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
-          self.goal_pose.pose.position.x = 40.0
-          self.goal_pose.pose.position.y = 9.0
+          self.goal_pose.pose.position.x = 1.320
+          self.goal_pose.pose.position.y = 0.0
           self.goal_pose.pose.position.z = 0.00
           self.goal_pose.pose.orientation.x = 0.0
           self.goal_pose.pose.orientation.y = 0.0
