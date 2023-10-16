@@ -25,7 +25,7 @@
 
 	
 
-<gazebo reference ="camera_imu_optical_frame">
+<!--gazebo reference ="camera_imu_optical_frame">
 	<gravity>true</gravity>
 	<sensor name="imu_sensor" type="imu">
 		<plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
@@ -36,7 +36,7 @@
       	<update_rate>100</update_rate>
       	<visualize>true</visualize>
 		<bodyName>camera_imu_optical_frame</bodyName>
-        <updateRateHZ>10.0</updateRateHZ>
+        <updateRateHZ>100.0</updateRateHZ>
         <gaussianNoise>0.0</gaussianNoise>
 		<frame_name>camera_imu_optical_frame</frame_name>
 		</plugin>
@@ -46,8 +46,28 @@
 		<initialOrientationAsReference>false</initialOrientationAsReference>
 		
 	</sensor>
-</gazebo>
-
+</gazebo-->
+  <gazebo reference="camera_imu_optical_frame">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+	  	<ros>
+			<remapping>~/out:=camera/imu</remapping>
+		</ros>
+        <bodyName>camera_imu_optical_frame</bodyName>
+        <updateRateHZ>1.0</updateRateHZ>
+        <!--gaussianNoise>0.0</gaussianNoise-->
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>camera_imu_optical_frame</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
 
 
 </robot>
