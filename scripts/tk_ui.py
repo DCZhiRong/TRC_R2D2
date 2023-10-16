@@ -204,6 +204,7 @@ class Publisher(Node):
         self.topic1 = self.create_timer(timer_period, self.timer_callback)
         self.topic2 = self.create_timer(timer_period, self.timer2_callback)
         self.i = 0
+        self.engine = pyttsx3.init()
 
     def listener_callback(self, msg):
         words = msg.data.lower()
@@ -214,9 +215,8 @@ class Publisher(Node):
 
     def listener_callback1(self, msg):
         words = msg.data.lower()
-        engine = pyttsx3.init()
-        engine.say(words)
-        engine.runAndWait()
+        self.engine.say(words)
+        self.engine.runAndWait()
 
     def timer2_callback(self):
         msg = String()
