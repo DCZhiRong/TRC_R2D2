@@ -215,7 +215,8 @@ class Publisher(Node):
 
     def listener_callback1(self, msg):
         words = msg.data.lower()
-        self.engine.say("You have arrived")
+        print(words)
+        self.engine.say("You have arrived at " + words)
         self.engine.runAndWait()
 
     def timer2_callback(self):

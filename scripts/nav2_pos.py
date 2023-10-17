@@ -68,7 +68,7 @@ class Subscriber(Node):
         self.subscription2 = self.create_subscription(PoseStamped, 'tk_destinations', self.listener_callback2, 10)
         self.subscription3 = self.create_subscription(PoseStamped, 'tk_destinations_names', self.listener_callback3, 10)
         self.publisher1 = self.create_publisher(String, 'tk_destinations_reached', 10)
-        self.topic3 = self.create_timer(timer_period, self.publish_reached)
+        #self.topic3 = self.create_timer(timer_period, self.publish_reached)
         
 
     def listener_callback1(self, msg):
@@ -126,8 +126,15 @@ class Subscriber(Node):
         if self.pause_at_goal:
           goals_name_reached.append(self.destination_name)
           self.destination_name = ""
+          print(goals_name_reached[0])
           print("pausing")
-          time.sleep(10)
+          msg = String()
+          if goals_name_reached:
+            msg.data = goals_name_reached.pop()
+            self.publisher1.publish(msg)
+            self.get_logger().info('Publishing: "%s"' % msg)
+          self.starttime = time.time()
+          self.timer_start = True
           self.pause_at_goal = False
           self.a ^= 1
         if self.a == 0:
