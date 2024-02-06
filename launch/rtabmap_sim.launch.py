@@ -31,10 +31,11 @@ def generate_launch_description():
           'rviz':True,}]
 
     remappings=[
-          ('imu', '/imu/data'),
-          ('rgb/image', '/camera/image_raw'),
-          ('rgb/camera_info', '/camera/camera_info'),
-          ('depth/image', '/camera/depth/image_raw')]
+          ('imu', 'camera/imu'),
+          ('rgb/image', '/camera/realigned_depth_to_color/image_raw'),
+          ('rgb/camera_info', '/camera/color/camera_info'),
+          ('depth/image', '/camera/color/image_raw'),
+          ('odom', '/diff_cont/odom'),]
 
     return LaunchDescription([
 

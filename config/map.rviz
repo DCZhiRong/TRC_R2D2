@@ -9,6 +9,7 @@ Panels:
         - /Map1/Topic1
         - /Map1/Update Topic1
         - /RobotModel1
+        - /Polygon1
       Splitter Ratio: 0.5
     Tree Height: 259
   - Class: rviz_common/Selection
@@ -113,9 +114,10 @@ Visualization Manager:
                   {}
                 r2d2_chassis:
                   camera_link:
+                    camera_imu_optical_frame:
+                      {}
                     camera_link_optical:
-                      camera_imu_optical_frame:
-                        {}
+                      {}
                     us1_link:
                       {}
                   head:
@@ -453,6 +455,19 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /plan
       Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Polygon
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /global_costmap/published_footprint
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -500,25 +515,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 18.496177673339844
+      Distance: 8.516873359680176
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.8796350955963135
-        Y: -0.834898054599762
-        Z: 3.3052749633789062
+        X: 9.160219192504883
+        Y: -6.307517051696777
+        Z: 4.723384857177734
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1553986072540283
+      Pitch: 1.0453985929489136
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.235398292541504
+      Yaw: 5.345399379730225
     Saved: ~
 Window Geometry:
   Displays:
