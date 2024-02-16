@@ -115,7 +115,7 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
-    failure_tolerance: 0.3
+    failure_tolerance: 0.5
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
@@ -134,8 +134,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      xy_goal_tolerance: 0.3
+      yaw_goal_tolerance: 0.3
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -215,9 +215,9 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 6.0
-          raytrace_min_range: 0.4
+          raytrace_min_range: 0.5
           obstacle_max_range: 5.0
-          obstacle_min_range: 0.4
+          obstacle_min_range: 0.5
         pointcloud:
           topic: /camera/depth/color/points
           data_type: "PointCloud2"
