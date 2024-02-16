@@ -37,7 +37,7 @@ class MinimalSubscriber(Node):
         imu.angular_velocity.x = imu.angular_velocity.z
         imu.angular_velocity.z = -imu.angular_velocity.y
         imu.angular_velocity.y = -temp
-        imu.header.stamp = self.get_clock().now().to_msg()
+        #imu.header.stamp = self.get_clock().now().to_msg()
         self.publisher_.publish(imu)
 
 
