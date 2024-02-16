@@ -114,10 +114,9 @@ Visualization Manager:
                   {}
                 r2d2_chassis:
                   camera_link:
-                    camera_imu_optical_frame:
-                      {}
                     camera_link_optical:
-                      {}
+                      camera_imu_optical_frame:
+                        {}
                     us1_link:
                       {}
                   head:
@@ -182,7 +181,7 @@ Visualization Manager:
       Buffer Length: 1
       Class: rviz_default_plugins/Range
       Color: 255; 255; 255
-      Enabled: true
+      Enabled: false
       Name: Range
       Topic:
         Depth: 5
@@ -191,12 +190,12 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /Us1/Range
-      Value: true
+      Value: false
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz_default_plugins/Range
       Color: 255; 255; 255
-      Enabled: true
+      Enabled: false
       Name: Range
       Topic:
         Depth: 5
@@ -205,12 +204,12 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /Us2/Range
-      Value: true
+      Value: false
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz_default_plugins/Range
       Color: 255; 255; 255
-      Enabled: true
+      Enabled: false
       Name: Range
       Topic:
         Depth: 5
@@ -219,12 +218,12 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /Us3/Range
-      Value: true
+      Value: false
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz_default_plugins/Range
       Color: 255; 255; 255
-      Enabled: true
+      Enabled: false
       Name: Range
       Topic:
         Depth: 5
@@ -233,7 +232,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /Us4/Range
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -246,7 +245,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -267,7 +266,7 @@ Visualization Manager:
         Value: /camera/depth/color/points
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 0.699999988079071
       Class: rviz_default_plugins/Map
       Color Scheme: map
@@ -522,18 +521,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 9.160219192504883
-        Y: -6.307517051696777
-        Z: 4.723384857177734
+        X: 5.7531843185424805
+        Y: -0.5993390679359436
+        Z: 1.6807175874710083
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.0453985929489136
+      Pitch: 0.6853989362716675
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.345399379730225
+      Yaw: 1.037216305732727
     Saved: ~
 Window Geometry:
   Displays:
