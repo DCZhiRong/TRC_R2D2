@@ -115,7 +115,7 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
-    failure_tolerance: 0.5
+    failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
@@ -134,8 +134,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.3
-      yaw_goal_tolerance: 0.3
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -320,7 +320,7 @@ planner_server:
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.6
+      tolerance: 0.5
       use_astar: true
       allow_unknown: true
 
@@ -379,8 +379,8 @@ velocity_smoother:
     use_sim_time: True
     smoothing_frequency: 20.0
     scale_velocities: False
-    #feedback: "OPEN_LOOP"
-    feedback: "CLOSED_LOOP"
+    feedback: "OPEN_LOOP"
+    #feedback: "CLOSED_LOOP"
     max_velocity: [0.3, 0.0, 1.0]
     min_velocity: [-0.3, 0.0, -1.0]
     max_accel: [1.5, 0.0, 3.2]
