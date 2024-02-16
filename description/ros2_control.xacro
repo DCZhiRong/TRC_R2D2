@@ -13,7 +13,8 @@
                 <!--param name="device">/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0</param-->
                 <param name="device">/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6605838832F1335-if00</param>
 
-                <param name="baud_rate">57600</param>
+                <!--param name="baud_rate">57600</param-->
+                <param name="baud_rate">115200</param>
                 <param name="timeout_ms">1000</param>
                 <param name="enc_counts_per_rev">16384</param>
             </hardware>
