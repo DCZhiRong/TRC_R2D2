@@ -41,4 +41,11 @@ def generate_launch_description():
             output='screen',
             parameters=[os.path.join(get_package_share_directory("r2d2"), 'config', 'ekf.yaml'), {'use_sim_time':use_sim_time}],
            ), 
+        launch_ros.actions.Node(
+            package='r2d2',
+            executable='imu_inverter.py',
+            name='imu_inverter',
+            output='screen',
+            parameters=[],
+           ), 
 ])
