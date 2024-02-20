@@ -134,8 +134,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.5
-      yaw_goal_tolerance: 0.5
+      xy_goal_tolerance: 0.75
+      yaw_goal_tolerance: 0.75
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -381,8 +381,8 @@ velocity_smoother:
     scale_velocities: False
     feedback: "OPEN_LOOP"
     #feedback: "CLOSED_LOOP"
-    max_velocity: [0.36, 0.0, 1.0]
-    min_velocity: [-0.36, 0.0, -1.0]
+    max_velocity: [0.26, 0.0, 1.0]
+    min_velocity: [-0.26, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
