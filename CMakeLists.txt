@@ -35,6 +35,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/nav2_pos.py
   scripts/tk_ui.py
+  scripts/tk_ui_new.py
   scripts/imu_inverter.py
   DESTINATION lib/${PROJECT_NAME}
 )

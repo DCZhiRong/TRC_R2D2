@@ -5,6 +5,7 @@ from sensor_msgs.msg import Imu
 import math
 import time
 from copy import deepcopy
+
 def main(args=None):
     rclpy.init(args=args)
     minimal_subscriber = MinimalSubscriber()
