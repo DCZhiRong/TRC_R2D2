@@ -259,7 +259,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
         observation_sources: scan #pointcloud
-        combination_method: 1
+        combination_method: 2
         scan:
           topic: /scan
           max_obstacle_height: 2.0
