@@ -207,7 +207,7 @@ local_costmap:
         max_obstacle_height: 2.0
         mark_threshold: 0
         observation_sources: scan pointcloud
-        combination_method: 2
+        combination_method: 0
         scan:
           topic: /scan
           max_obstacle_height: 2.0
@@ -366,7 +366,7 @@ robot_state_publisher:
 waypoint_follower:
   ros__parameters:
     use_sim_time: True
-    loop_rate: 10
+    loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"
     wait_at_waypoint:
@@ -377,7 +377,7 @@ waypoint_follower:
 velocity_smoother:
   ros__parameters:
     use_sim_time: True
-    smoothing_frequency: 10.0
+    smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
     #feedback: "CLOSED_LOOP"
