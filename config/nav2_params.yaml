@@ -188,8 +188,8 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: true
-      width: 5
-      height: 5
+      width: 3
+      height: 3
       resolution: 0.1
       robot_radius: 0.4
       plugins: ["voxel_layer", "inflation_layer"]
@@ -207,7 +207,7 @@ local_costmap:
         max_obstacle_height: 2.0
         mark_threshold: 0
         observation_sources: scan pointcloud
-        combination_method: 0
+        combination_method: 2
         scan:
           topic: /scan
           max_obstacle_height: 2.0
