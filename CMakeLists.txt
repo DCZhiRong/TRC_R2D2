@@ -37,6 +37,7 @@ install(PROGRAMS
   scripts/tk_ui.py
   scripts/tk_ui_new.py
   scripts/imu_inverter.py
+  scripts/Detect_contraband
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -1,0 +1,37 @@
+#! /usr/bin/env python3
+import numpy as np                        # fundamental package for scientific computing
+import rclpy
+from rclpy.node import Node
+import time
+from std_msgs.msg import String
+from vision_msgs.msg import Detection2DArray
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_subscriber = Contraband()
+
+    rclpy.spin(minimal_subscriber)
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    minimal_subscriber.destroy_node()
+    rclpy.shutdown()
+
+class Contraband(Node):
+
+    def __init__(self):
+        super().__init__('Contraband_detector') 
+        self.publisher_ = self.create_publisher(String, 'lol', 10)
+        self.subscription2 = self.create_subscription(Detection2DArray,"/detector_node/detections",self.find_object,10)
+    
+    def find_object(self, msg):
+        self.checked_target = 1
+        for i in range (0, len(msg.detections)):
+            if msg.detections[i].results[0].hypothesis.class_id == "cell phone":
+                print("Phone detected")
+
+
+if __name__ == '__main__':
+    main()
