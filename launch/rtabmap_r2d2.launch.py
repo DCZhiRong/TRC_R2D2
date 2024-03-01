@@ -64,17 +64,18 @@ def generate_launch_description():
     }
 
     remappings=[
+          ('imu', '/imu/data'),
           ('/odom', 'diff_cont/odom'),
           ('scan', '/scan'),
-          ('rgb/image', '/camera/realigned_depth_to_color/image_raw'),
+          ('rgb/image', '/camera/color/image_raw'),
           ('rgb/camera_info', '/camera/color/camera_info'),
-          ('depth/image', '/camera/color/image_raw')]
+          ('depth/image', '/camera/realigned_depth_to_color/image_raw')]
 
     return LaunchDescription([
 
         # Launch arguments
         DeclareLaunchArgument(
-            'use_sim_time', default_value='true',
+            'use_sim_time', default_value='false',
             description='Use simulation (Gazebo) clock if true'),
         
         DeclareLaunchArgument(
