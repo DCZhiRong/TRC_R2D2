@@ -39,8 +39,7 @@ reboot
 Now that you have done the initial setup, its time to install some of the ros dependencies needed for this ros package to run
 
 ```
-sudo apt install ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-teleop-twist* ros-humble-gazebo* ros-humble-ros2-control* ros-humble-twist-mux ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-robot-localization
-libserial-dev
+sudo apt install ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-teleop-twist* ros-humble-gazebo* ros-humble-ros2-control* ros-humble-twist-mux ros-humble-slam-toolbox ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-robot-localization libserial-dev ros-humble-v4l2-camera ros-humble-image-transport-plugins
 ```
 
 ### Hardware drivers
